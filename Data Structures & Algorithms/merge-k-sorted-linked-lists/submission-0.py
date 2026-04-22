@@ -1,0 +1,52 @@
+from functools import reduce
+
+
+class Solution:    
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+
+        if not lists:
+            return None
+        
+        return reduce(self.mergeTwoLists,lists)
+        
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        head = None
+
+        if not list1:
+            return list2
+        
+        if not list2:
+            return list1
+
+        if list1.val < list2.val:
+            head = list1
+            list1 = list1.next
+        else:
+            head = list2
+            list2 = list2.next
+        
+        dummy = head
+
+        while list1 and list2:
+            if list1.val < list2.val:
+                head.next = list1
+                list1 = list1.next
+            else:
+                head.next = list2
+                list2 = list2.next
+
+            head = head.next
+
+        while list1:
+            head.next = list1
+            list1 = list1.next
+            head = head.next
+
+        while list2:
+            head.next = list2
+            list2 = list2.next
+            head = head.next
+        
+
+
+        return dummy
